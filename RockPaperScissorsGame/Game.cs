@@ -36,6 +36,12 @@ namespace RockPaperScissorsGame
                 Console.WriteLine($"You chose {(Option) userOption}, computer chose {(Option) computerResponse}");
 
                 var gameResult = EvaluateOptions((Option)userOption, (Option) computerResponse);
+
+                UpdateScore(gameResult);
+
+                DisplayEndGameMessage(gameResult);
+
+                PlayAgain();
             }
         }
         private static int GetUserInput()
@@ -71,8 +77,45 @@ namespace RockPaperScissorsGame
                 return computerOption == Option.Rock ? Result.Loss : Result.Win;
             }
         }
-        
+
+        private void UpdateScore(Result gameResult)
+        {
+            if(gameResult == Result.Win)
+            {
+                _playerScore++;
+            }
+            else if(gameResult == Result.Loss)
+            {
+                _playerScore++;
+            }
+        }
+
+        private static void DisplayEndGameMessage(Result gameResult)
+        {
+            if(gameResult == Result.Win)
+            {
+                Console.WriteLine("You Won!");
+            }
+            else if(gameResult == Result.Draw)
+            {
+                Console.WriteLine("Draw!");
+            }
+            else
+            {
+                Console.WriteLine("You lost");
+            }
+        }
+        private void PlayAgain()
+        {
+            Console.WriteLine("Play again? (y/n):");
+            var playAgainResponse = Console.ReadLine();
+
+            if(string.IsNullOrWhiteSpace(playAgainResponse) || string.Equals(playAgainResponse, "n", StringComparison.OrdinalIgnoreCase))
+            {
+                _quit = true;
+                Console.WriteLine($"Final Score: Player: {_playerScore}, Computer: {_computerScore}");
+            }
+        }
 
     }
 }
-
